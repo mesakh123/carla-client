@@ -11,12 +11,12 @@ import glob
 import logging
 import math
 import os
-import numpy.random as random
+
 import re
 import sys
 import weakref
 
-
+import numpy as np
 import pygame
 from pygame.locals import KMOD_CTRL
 from pygame.locals import K_ESCAPE

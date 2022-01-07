@@ -10,10 +10,8 @@ except IndexError:
     pass
 import carla
 
-try:
-    import numpy as np
-except ImportError:
-    raise RuntimeError('cannot import numpy, make sure numpy package is installed')
+
+import numpy as np
 
 from clientlib.camera_utils import CustomCamera
 from clientlib.lidar_utils import CustomLidar
