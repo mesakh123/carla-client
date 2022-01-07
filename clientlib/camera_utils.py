@@ -38,7 +38,7 @@ class CustomCamera(_baseCustomSensor):
                 print('saving image with bounding box to %s' %_image_bbox)
                 vehicle_bboxes_world = vehicle_bboxes_to_world(get_visible_vehicles(self.world, self))
                 image = project_bboxes_to_image(vehicle_bboxes_world, self)
-                cv.imwrite(_image_bbox, image)
+                await cv.imwrite(_image_bbox, image)
             self.retrive = True
         return self.retrive
 
