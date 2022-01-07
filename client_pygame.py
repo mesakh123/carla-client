@@ -67,7 +67,7 @@ class SynchronousClient:
         car_bp_sample = []
         for _ in range(self.number_of_cars):
             car_bp_sample.append(random.choice(car_bps))
-        location = random.sample(self.world.get_map().get_spawn_points(), self.number_of_cars)
+        location = np.random.sample(self.world.get_map().get_spawn_points(), self.number_of_cars)
         self.ego = self.world.spawn_actor(car_bps[0], location[0])
         self.ego.set_autopilot(True, self.manager.get_port())
         self.modify_vehicle_physics(self.ego)
