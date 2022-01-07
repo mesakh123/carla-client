@@ -171,6 +171,7 @@ class SynchronousClient:
             spawn_points = self.map.get_spawn_points()
             destination = random.choice(spawn_points).location
         
+            print("destination",destination)
             agent = BasicAgent(self.ego)
             agent.set_destination(destination)
             
