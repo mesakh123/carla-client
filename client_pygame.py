@@ -23,7 +23,6 @@ from clientlib.pygame_utils import *
 import random
 import pygame
 
-import asyncio
 
 class SynchronousClient:
 
@@ -32,7 +31,7 @@ class SynchronousClient:
         self.world = None
         self.map = None
         self.manager = None
-        self.number_of_cars = 3
+        self.number_of_cars = 30
         self.frames_per_second = 60
 
         self.ego = None
@@ -122,7 +121,7 @@ class SynchronousClient:
         lidar_transform = carla.Transform(location=lidar_location, rotation=lidar_rotation)
         return CustomLidar(self.world, lidar_transform, self.ego, log_dir, **options)
 
-    async def loop(self):
+    def loop(self):
         
         camera_options = {
             'image_size_x': self.image_x,
@@ -220,14 +219,11 @@ class SynchronousClient:
                       self.left.retrive,
                       self.lidar.retrive)
 
-                tasks = [
-                self.front.save_data(),
-                self.right.save_data(),
-                self.back.save_data(),
-                self.left.save_data(),
-                self.lidar.save_data()]
-                
-                await asyncio.gather(*tasks)
+                self.front.save_data()
+                self.right.save_data()
+                self.back.save_data()
+                self.left.save_data()
+                self.lidar.save_data()
 
                 if self.tick % (self.sensor_tick // (1 /self.frames_per_second)) == 0:
                     label_count += 1
@@ -286,13 +282,13 @@ class SynchronousClient:
 
 
 
-async def main():
+def main():
     try:
         client = SynchronousClient()
-        await client.loop()
+        client.loop()
     finally:
         print('EXIT')
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    main()

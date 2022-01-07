@@ -25,7 +25,7 @@ class CustomCamera(_baseCustomSensor):
         self.prefix = prefix
         self.suffix = suffix
 
-    async def save_data(self):
+    def save_data(self):
         from .project_utils import project_bboxes_to_image
         from .carla_utils import get_visible_vehicles
         from .transform_utils import vehicle_bboxes_to_world
@@ -38,7 +38,7 @@ class CustomCamera(_baseCustomSensor):
                 print('saving image with bounding box to %s' %_image_bbox)
                 vehicle_bboxes_world = vehicle_bboxes_to_world(get_visible_vehicles(self.world, self))
                 image = project_bboxes_to_image(vehicle_bboxes_world, self)
-                await cv.imwrite(_image_bbox, image)
+                cv.imwrite(_image_bbox, image)
             self.retrive = True
         return self.retrive
 
