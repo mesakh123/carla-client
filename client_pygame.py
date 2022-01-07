@@ -134,7 +134,6 @@ class SynchronousClient:
             'lower_fov': -20.0
         }
 
-        agent = BasicAgent(self.ego)
         try:
             self.client = carla.Client('127.0.0.1', 2000)
             self.client.set_timeout(2.0)
@@ -165,6 +164,7 @@ class SynchronousClient:
             display = pygame.display.set_mode( (self.image_x, self.image_y),pygame.HWSURFACE | pygame.DOUBLEBUF)
             
             
+            agent = BasicAgent(self.ego)
             hud = HUD(self.image_x, self.image_y)
             actor_type = get_actor_display_name(self.ego)
             hud.notification(actor_type)
