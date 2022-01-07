@@ -1,4 +1,7 @@
 
+"""
+    Example of automatic vehicle control from client side.
+"""
 from __future__ import print_function
 
 import argparse
@@ -19,9 +22,13 @@ from pygame.locals import KMOD_CTRL
 from pygame.locals import K_ESCAPE
 from pygame.locals import K_q
 
+try:
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/carla')
+except IndexError:
+    pass
+
 import carla
 from carla import ColorConverter as cc
-
 from agents.navigation.behavior_agent import BehaviorAgent  # pylint: disable=import-error
 from agents.navigation.basic_agent import BasicAgent  # pylint: disable=import-error
 
