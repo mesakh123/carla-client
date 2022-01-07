@@ -117,16 +117,6 @@ class SynchronousClient:
 
     def loop(self):
         
-        
-        pygame.init()
-        pygame.font.init()
-        display = pygame.display.set_mode( (self.image_x, self.image_y),pygame.HWSURFACE | pygame.DOUBLEBUF)
-        
-        
-        hud = HUD(self.image_x, self.image_y)
-        actor_type = get_actor_display_name(self.ego)
-        hud.notification(actor_type)
-        
         camera_options = {
             'image_size_x': self.image_x,
             'image_size_y': self.image_y,
@@ -166,6 +156,19 @@ class SynchronousClient:
             assert label_dir is not None 
             assert calib_dir is not None
             assert snap_dir is not None
+            
+            
+            
+        
+            pygame.init()
+            pygame.font.init()
+            display = pygame.display.set_mode( (self.image_x, self.image_y),pygame.HWSURFACE | pygame.DOUBLEBUF)
+            
+            
+            hud = HUD(self.image_x, self.image_y)
+            actor_type = get_actor_display_name(self.ego)
+            hud.notification(actor_type)
+            
 
             self.world.tick()
             self.world.on_tick(hud.on_world_tick)
