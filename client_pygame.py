@@ -124,7 +124,7 @@ class SynchronousClient:
         
         
         hud = HUD(self.image_x, self.image_y)
-        actor_type = get_actor_display_name(self.player)
+        actor_type = get_actor_display_name(self.ego)
         hud.notification(actor_type)
         
         camera_options = {
