@@ -175,21 +175,21 @@ class SynchronousClient:
             agent = BasicAgent(self.ego)
             agent.set_destination(destination)
             
-            hud = HUD(self.image_x, self.image_y)
+            self.hud = HUD(self.image_x, self.image_y)
             
             
             cam_index = self.camera_manager.index if self.camera_manager is not None else 0
             cam_pos_id = self.camera_manager.transform_index if self.camera_manager is not None else 0
 
-            self.camera_manager = CameraManager(self.ego, hud)
+            self.camera_manager = CameraManager(self.ego, self.hud)
             self.camera_manager.transform_index = cam_pos_id
             self.camera_manager.set_sensor(cam_index, notify=False)
             actor_type = get_actor_display_name(self.ego)
-            hud.notification(actor_type)
+            self.hud.notification(actor_type)
             
             self.world.tick()
 
-            self.world.on_tick(hud.on_world_tick)
+            self.world.on_tick(self.hud.on_world_tick)
             
             clock = pygame.time.Clock()
             
