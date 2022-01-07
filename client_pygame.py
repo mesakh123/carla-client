@@ -295,5 +295,4 @@ async def main():
 
 
 if __name__ == '__main__':
-    loop = asyncio.get_running_loop()
-    loop.create_task(main())
+    asyncio.run(main())
