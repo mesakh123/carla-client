@@ -31,6 +31,7 @@ class SynchronousClient:
     def __init__(self):
         self.client = None
         self.world = None
+        self.map = None
         self.manager = None
         self.number_of_cars = 40
         self.frames_per_second = 20
@@ -38,11 +39,13 @@ class SynchronousClient:
         self.ego = None
         self.spectator = None
 
-        self.image_x = 1920
-        self.image_y = 1080
+        self.image_x = 1280
+        self.image_y = 800
         self.fov = 90
         self.sensor_tick = 0.1
         self.tick = -1
+        
+        self.camera_manager = None
         
     def modify_vehicle_physics(self, actor):
         #If actor is not a vehicle, we cannot use the physics control
@@ -140,6 +143,8 @@ class SynchronousClient:
             self.world = self.client.get_world()
             self.manager = self.client.get_trafficmanager(8000)
             self.set_synchronous_mode(True)
+            
+            self.map = self.world.get_map()
 
             self.setup_cars()
             self.setup_spectator()
@@ -163,23 +168,42 @@ class SynchronousClient:
             pygame.font.init()
             display = pygame.display.set_mode( (self.image_x, self.image_y),pygame.HWSURFACE | pygame.DOUBLEBUF)
             
-            
+            spawn_points = self.map.get_spawn_points()
+            destination = random.choice(spawn_points).location
+        
             agent = BasicAgent(self.ego)
+            agent.set_destination(destination)
+            
             hud = HUD(self.image_x, self.image_y)
+            
+            
+            cam_index = self.camera_manager.index if self.camera_manager is not None else 0
+            cam_pos_id = self.camera_manager.transform_index if self.camera_manager is not None else 0
+
+            self.camera_manager = CameraManager(self.ego, hud)
+            self.camera_manager.transform_index = cam_pos_id
+            self.camera_manager.set_sensor(cam_index, notify=False)
             actor_type = get_actor_display_name(self.ego)
             hud.notification(actor_type)
             
+            self.world.tick()
 
             self.world.on_tick(hud.on_world_tick)
             
             clock = pygame.time.Clock()
             
+            
             while True:
                 self.tick += 1
                 self.update_spectator()
                 clock.tick()
-                self.world.tick(clock)
-                self.world.render(display)
+                self.world.tick()
+                
+                self.hud.tick(clock)
+                self.hud.render(display)
+                self.camera_manager.render(display)
+                
+                
                 pygame.display.flip()
                 print(self.front.retrive, 
                       self.right.retrive,
