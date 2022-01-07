@@ -10,7 +10,6 @@ except IndexError:
     pass
 import carla
 
-import random
 try:
     import numpy as np
 except ImportError:
@@ -23,6 +22,7 @@ from clientlib.carla_utils import save_snapshot
 from clientlib.utils import make_dirs
 from clientlib.pygame_utils import *
 
+import random
 import pygame
 
 
