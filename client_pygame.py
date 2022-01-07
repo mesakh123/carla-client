@@ -180,8 +180,10 @@ class SynchronousClient:
             
             self.hud = HUD(self.image_x, self.image_y)
             
+            # Set up the sensors.
             self.collision_sensor = CollisionSensor(self.player, self.hud)
             self.lane_invasion_sensor = LaneInvasionSensor(self.player, self.hud)
+            self.gnss_sensor = GnssSensor(self.player)
             cam_index = self.camera_manager.index if self.camera_manager is not None else 0
             cam_pos_id = self.camera_manager.transform_index if self.camera_manager is not None else 0
 
