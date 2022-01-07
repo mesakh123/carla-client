@@ -31,7 +31,7 @@ class SynchronousClient:
         self.world = None
         self.map = None
         self.manager = None
-        self.number_of_cars = 40
+        self.number_of_cars = 3
         self.frames_per_second = 20
 
         self.ego = None
