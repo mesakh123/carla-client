@@ -44,6 +44,7 @@ class SynchronousClient:
         self.tick = -1
         
         self.camera_manager = None
+        self.player = None
         
     def modify_vehicle_physics(self, actor):
         #If actor is not a vehicle, we cannot use the physics control
@@ -75,6 +76,7 @@ class SynchronousClient:
         for i in range(1, self.number_of_cars):
             current_car = self.world.spawn_actor(car_bp_sample[i], location[i])
             current_car.set_autopilot(True, self.manager.get_port())
+        self.player = self.ego
         
         
 
@@ -198,7 +200,7 @@ class SynchronousClient:
                 clock.tick()
                 self.world.tick()
                 
-                self.hud.tick(clock)
+                self.hud.tick(self, clock)
                 self.hud.render(display)
                 self.camera_manager.render(display)
                 
