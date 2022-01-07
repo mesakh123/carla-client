@@ -232,7 +232,7 @@ class SynchronousClient:
 
                 control = agent.run_step()
                 control.manual_gear_shift = False
-                self.world.player.apply_control(control)
+                self.player.apply_control(control)
         finally:
             vehicles = self.world.get_actors().filter('vehicle.*')
             self.front.destroy()
