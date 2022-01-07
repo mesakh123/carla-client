@@ -25,7 +25,7 @@ class CustomCamera(_baseCustomSensor):
         self.prefix = prefix
         self.suffix = suffix
 
-    def save_data(self):
+    async def save_data(self):
         from .project_utils import project_bboxes_to_image
         from .carla_utils import get_visible_vehicles
         from .transform_utils import vehicle_bboxes_to_world

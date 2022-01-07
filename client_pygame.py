@@ -23,6 +23,7 @@ from clientlib.pygame_utils import *
 import random
 import pygame
 
+import asyncio
 
 class SynchronousClient:
 
@@ -31,8 +32,8 @@ class SynchronousClient:
         self.world = None
         self.map = None
         self.manager = None
-        self.number_of_cars = 1
-        self.frames_per_second = 30
+        self.number_of_cars = 3
+        self.frames_per_second = 60
 
         self.ego = None
         self.spectator = None
@@ -121,7 +122,7 @@ class SynchronousClient:
         lidar_transform = carla.Transform(location=lidar_location, rotation=lidar_rotation)
         return CustomLidar(self.world, lidar_transform, self.ego, log_dir, **options)
 
-    def loop(self):
+    async def loop(self):
         
         camera_options = {
             'image_size_x': self.image_x,
@@ -193,7 +194,7 @@ class SynchronousClient:
             actor_type = get_actor_display_name(self.ego)
             self.hud.notification(actor_type)
             
-            self.world.tick()
+            #self.world.tick()
 
             self.world.on_tick(self.hud.on_world_tick)
             
@@ -202,10 +203,10 @@ class SynchronousClient:
             
             while True:
                 self.tick += 1
-                self.update_spectator()
-                clock.tick()
+                clock.tick(60)
                 self.world.tick()
                 
+                self.update_spectator()
                 self.hud.tick(self, clock)
                 self.hud.render(display)
                 self.camera_manager.render(display)
@@ -219,11 +220,14 @@ class SynchronousClient:
                       self.left.retrive,
                       self.lidar.retrive)
 
-                #self.front.save_data()
-                #self.right.save_data()
-                #self.back.save_data()
-                #self.left.save_data()
-                #self.lidar.save_data()
+                tasks = [
+                self.front.save_data(),
+                self.right.save_data(),
+                self.back.save_data(),
+                self.left.save_data(),
+                self.lidar.save_data()]
+                
+                await asyncio.gather(*tasks)
 
                 if self.tick % (self.sensor_tick // (1 /self.frames_per_second)) == 0:
                     label_count += 1
