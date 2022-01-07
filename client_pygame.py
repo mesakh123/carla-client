@@ -219,11 +219,11 @@ class SynchronousClient:
                       self.left.retrive,
                       self.lidar.retrive)
 
-                self.front.save_data()
-                self.right.save_data()
-                self.back.save_data()
-                self.left.save_data()
-                self.lidar.save_data()
+                #self.front.save_data()
+                #self.right.save_data()
+                #self.back.save_data()
+                #self.left.save_data()
+                #self.lidar.save_data()
 
                 if self.tick % (self.sensor_tick // (1 /self.frames_per_second)) == 0:
                     label_count += 1
