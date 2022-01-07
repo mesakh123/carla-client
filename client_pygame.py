@@ -170,7 +170,6 @@ class SynchronousClient:
             hud.notification(actor_type)
             
 
-            self.world.tick()
             self.world.on_tick(hud.on_world_tick)
             
             clock = pygame.time.Clock()
