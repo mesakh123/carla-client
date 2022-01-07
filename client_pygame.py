@@ -32,7 +32,7 @@ class SynchronousClient:
         self.map = None
         self.manager = None
         self.number_of_cars = 1
-        self.frames_per_second = 60
+        self.frames_per_second = 30
 
         self.ego = None
         self.spectator = None
