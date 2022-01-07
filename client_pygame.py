@@ -212,6 +212,7 @@ class SynchronousClient:
                 
                 
                 pygame.display.flip()
+                
                 print(self.front.retrive, 
                       self.right.retrive,
                       self.back.retrive,
@@ -229,7 +230,14 @@ class SynchronousClient:
                     generate_kitti_label_file(label_dir / ("%06d.txt" %label_count), self.world, self.front)
                     generate_kitti_calib_file(calib_dir / ("%06d.txt" %label_count), self.front, lidar=self.lidar)
                     save_snapshot(snap_dir / ("%06d.txt" %label_count), self.world)
-
+                if agent.done():
+                    if True:
+                        agent.set_destination(random.choice(spawn_points).location)
+                        self.hud.notification("The target has been reached, searching for another target", seconds=4.0)
+                        print("The target has been reached, searching for another target")
+                    else:
+                        print("The target has been reached, stopping the simulation")
+                        break
                 control = agent.run_step()
                 control.manual_gear_shift = False
                 self.player.apply_control(control)
