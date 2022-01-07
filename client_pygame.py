@@ -286,10 +286,10 @@ class SynchronousClient:
 
 
 
-def main():
+async def main():
     try:
         client = SynchronousClient()
-        client.loop()
+        await client.loop()
     finally:
         print('EXIT')
 
