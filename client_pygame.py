@@ -45,6 +45,9 @@ class SynchronousClient:
         
         self.camera_manager = None
         self.player = None
+        self.collision_sensor = None
+        self.lane_invasion_sensor = None
+        self.gnss_sensor = None
         
     def modify_vehicle_physics(self, actor):
         #If actor is not a vehicle, we cannot use the physics control
@@ -177,7 +180,8 @@ class SynchronousClient:
             
             self.hud = HUD(self.image_x, self.image_y)
             
-            
+            self.collision_sensor = CollisionSensor(self.player, self.hud)
+            self.lane_invasion_sensor = LaneInvasionSensor(self.player, self.hud)
             cam_index = self.camera_manager.index if self.camera_manager is not None else 0
             cam_pos_id = self.camera_manager.transform_index if self.camera_manager is not None else 0
 
@@ -236,7 +240,19 @@ class SynchronousClient:
             self.lidar.destroy()
             for vehicle in vehicles:
                 vehicle.destroy()
+            #Destroys all actors
+            actors = [
+                self.camera_manager.sensor,
+                self.collision_sensor.sensor,
+                self.lane_invasion_sensor.sensor,
+                self.gnss_sensor.sensor,
+                self.player,
+                self.ego]
+            for actor in actors:
+                if actor is not None:
+                    actor.destroy()
             self.set_synchronous_mode(False)
+
 
 
 def main():
